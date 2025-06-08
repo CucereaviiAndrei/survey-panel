@@ -19,7 +19,7 @@ class PanelistController extends AbstractController
     public function index(PanelistRepository $panelistRepository): Response
     {
         return $this->render('panelist/index.html.twig', [
-            'panelists' => $panelistRepository->findAll(),
+            'panelists' => $panelistRepository->findBy([], ['createdAt' => 'DESC']),
         ]);
     }
 
@@ -31,8 +31,6 @@ class PanelistController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $panelist->setCreatedAt(new \DateTimeImmutable());
-
             $em->persist($panelist);
             $em->flush();
 
@@ -49,10 +47,6 @@ class PanelistController extends AbstractController
     #[Route('/{id}', name: 'panelist_show', methods: ['GET'])]
     public function show(Panelist $panelist): Response
     {
-        if ($panelist->getDeletedAt()) {
-            throw $this->createNotFoundException('Panelist not found.');
-        }
-
         $form = $this->createForm(AssignSurveysType::class, $panelist);
 
         return $this->render('panelist/show.html.twig', [
@@ -64,13 +58,9 @@ class PanelistController extends AbstractController
     #[Route('/{id}/edit', name: 'panelist_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Panelist $panelist, EntityManagerInterface $em): Response
     {
-        if ($panelist->getDeletedAt()) {
-            throw $this->createNotFoundException('Panelist not found.');
-        }
-
         $form = $this->createForm(PanelistType::class, $panelist);
-        $form->handleRequest($request);
 
+        $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $em->flush();
             $this->addFlash('success', 'Panelist updated.');
@@ -90,13 +80,9 @@ class PanelistController extends AbstractController
         Panelist $panelist,
         EntityManagerInterface $em,
     ): Response {
-        if ($panelist->getDeletedAt()) {
-            throw $this->createNotFoundException('Panelist not found.');
-        }
-
         $form = $this->createForm(AssignSurveysType::class, $panelist);
-        $form->handleRequest($request);
 
+        $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $em->flush();
             $this->addFlash('success', 'Surveys updated.');
@@ -110,10 +96,6 @@ class PanelistController extends AbstractController
     #[Route('/{id}', name: 'panelist_delete', methods: ['POST'])]
     public function delete(Request $request, Panelist $panelist, EntityManagerInterface $em): Response
     {
-        if ($panelist->getDeletedAt()) {
-            throw $this->createNotFoundException('Panelist not found.');
-        }
-
         if ($this->isCsrfTokenValid('delete'.$panelist->getId(), $request->request->get('_token'))) {
             $panelist->setDeletedAt(new \DateTimeImmutable());
             $em->flush();

@@ -37,6 +37,7 @@ class Survey
 
     public function __construct()
     {
+        $this->createdAt = new \DateTimeImmutable();
         $this->panelists = new ArrayCollection();
     }
 

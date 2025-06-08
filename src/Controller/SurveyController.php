@@ -18,7 +18,7 @@ class SurveyController extends AbstractController
     public function index(SurveyRepository $surveyRepository): Response
     {
         return $this->render('survey/index.html.twig', [
-            'surveys' => $surveyRepository->findAll(),
+            'surveys' => $surveyRepository->findBy([], ['createdAt' => 'DESC']),
         ]);
     }
 
@@ -30,8 +30,6 @@ class SurveyController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $survey->setCreatedAt(new \DateTimeImmutable());
-
             $em->persist($survey);
             $em->flush();
 
@@ -48,10 +46,6 @@ class SurveyController extends AbstractController
     #[Route('/{id}/edit', name: 'survey_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Survey $survey, EntityManagerInterface $em): Response
     {
-        if ($survey->getDeletedAt()) {
-            throw $this->createNotFoundException('Survey not found.');
-        }
-
         $form = $this->createForm(SurveyType::class, $survey);
         $form->handleRequest($request);
 
@@ -71,10 +65,6 @@ class SurveyController extends AbstractController
     #[Route('/{id}', name: 'survey_delete', methods: ['POST'])]
     public function delete(Request $request, Survey $survey, EntityManagerInterface $em): Response
     {
-        if ($survey->getDeletedAt()) {
-            throw $this->createNotFoundException('Survey not found.');
-        }
-
         if ($this->isCsrfTokenValid('delete'.$survey->getId(), $request->request->get('_token'))) {
             $survey->setDeletedAt(new \DateTimeImmutable());
             $em->flush();

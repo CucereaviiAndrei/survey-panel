@@ -69,6 +69,7 @@ class Panelist
 
     public function __construct()
     {
+        $this->createdAt = new \DateTimeImmutable();
         $this->surveys = new ArrayCollection();
     }
 
