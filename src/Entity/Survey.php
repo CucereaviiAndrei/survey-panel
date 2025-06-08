@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\SurveyRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: SurveyRepository::class)]
@@ -24,6 +26,17 @@ class Survey
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $deletedAt = null;
+
+    /**
+     * @var Collection<int, Panelist>
+     */
+    #[ORM\ManyToMany(targetEntity: Panelist::class, mappedBy: 'surveys')]
+    private Collection $panelists;
+
+    public function __construct()
+    {
+        $this->panelists = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -74,6 +87,33 @@ class Survey
     public function setDeletedAt(?\DateTimeImmutable $deletedAt): static
     {
         $this->deletedAt = $deletedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Panelist>
+     */
+    public function getPanelists(): Collection
+    {
+        return $this->panelists;
+    }
+
+    public function addPanelist(Panelist $panelist): static
+    {
+        if (!$this->panelists->contains($panelist)) {
+            $this->panelists->add($panelist);
+            $panelist->addSurvey($this);
+        }
+
+        return $this;
+    }
+
+    public function removePanelist(Panelist $panelist): static
+    {
+        if ($this->panelists->removeElement($panelist)) {
+            $panelist->removeSurvey($this);
+        }
 
         return $this;
     }

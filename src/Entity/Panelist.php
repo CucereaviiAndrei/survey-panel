@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\PanelistRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -56,6 +58,17 @@ class Panelist
     #[ORM\Column(nullable: true)]
     #[Assert\Type(\DateTimeImmutable::class)]
     private ?\DateTimeImmutable $deletedAt = null;
+
+    /**
+     * @var Collection<int, Survey>
+     */
+    #[ORM\ManyToMany(targetEntity: Survey::class, inversedBy: 'panelists')]
+    private Collection $surveys;
+
+    public function __construct()
+    {
+        $this->surveys = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -154,6 +167,30 @@ class Panelist
     public function setDeletedAt(?\DateTimeImmutable $deletedAt): static
     {
         $this->deletedAt = $deletedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Survey>
+     */
+    public function getSurveys(): Collection
+    {
+        return $this->surveys;
+    }
+
+    public function addSurvey(Survey $survey): static
+    {
+        if (!$this->surveys->contains($survey)) {
+            $this->surveys->add($survey);
+        }
+
+        return $this;
+    }
+
+    public function removeSurvey(Survey $survey): static
+    {
+        $this->surveys->removeElement($survey);
 
         return $this;
     }
