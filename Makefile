@@ -59,3 +59,9 @@ sf: ## List all Symfony commands or pass the parameter "c=" to run a given comma
 
 cc: c=c:c ## Clear the cache
 cc: sf
+
+reset:
+	@$(SYMFONY) doctrine:database:drop --force --if-exists
+	@$(SYMFONY) doctrine:database:create --if-not-exists
+	@$(SYMFONY) doctrine:migrations:migrate --no-interaction
+	@$(SYMFONY) doctrine:fixtures:load --no-interaction
