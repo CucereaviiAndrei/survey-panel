@@ -6,8 +6,8 @@ use App\Repository\PanelistRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PanelistRepository::class)]
 #[Gedmo\SoftDeleteable(fieldName: 'deletedAt', timeAware: false)]
@@ -38,7 +38,7 @@ class Panelist
     #[Assert\Length(max: 255)]
     #[Assert\Regex(
         pattern: "/^\+?[0-9\s\-\(\)]+$/",
-        message: "Please enter a valid phone number."
+        message: 'Please enter a valid phone number.'
     )]
     private ?string $phone = null;
 
@@ -49,7 +49,7 @@ class Panelist
 
     #[ORM\Column]
     #[Assert\NotNull]
-    #[Assert\Type("bool")]
+    #[Assert\Type('bool')]
     private ?bool $newsletterAgreement = null;
 
     #[ORM\Column]

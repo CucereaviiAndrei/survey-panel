@@ -41,6 +41,6 @@ final class PanelistFactory extends PersistentProxyObjectFactory
     protected function initialize(): static
     {
         return $this// ->afterInstantiate(function(Panelist $panelist): void {})
-            ;
+        ;
     }
 }

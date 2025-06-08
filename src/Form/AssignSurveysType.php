@@ -16,12 +16,10 @@ class AssignSurveysType extends AbstractType
         $builder
             ->add('surveys', EntityType::class, [
                 'class' => Survey::class,
+                'choice_label' => 'name',
                 'multiple' => true,
                 'expanded' => false,
-                'choice_label' => 'name',
-                'query_builder' => fn($repo) => $repo->createQueryBuilder('s')
-                    ->where('s.deletedAt IS NULL')
-                    ->orderBy('s.name', 'ASC'),
+                'attr' => ['class' => 'form-select', 'size' => 6],
             ]);
     }
 

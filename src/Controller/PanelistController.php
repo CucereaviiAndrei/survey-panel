@@ -3,8 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Panelist;
-use App\Form\PanelistType;
 use App\Form\AssignSurveysType;
+use App\Form\PanelistType;
 use App\Repository\PanelistRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -88,7 +88,7 @@ class PanelistController extends AbstractController
     public function assignSurveys(
         Request $request,
         Panelist $panelist,
-        EntityManagerInterface $em
+        EntityManagerInterface $em,
     ): Response {
         if ($panelist->getDeletedAt()) {
             throw $this->createNotFoundException('Panelist not found.');

@@ -75,7 +75,7 @@ class SurveyController extends AbstractController
             throw $this->createNotFoundException('Survey not found.');
         }
 
-        if ($this->isCsrfTokenValid('delete' . $survey->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$survey->getId(), $request->request->get('_token'))) {
             $survey->setDeletedAt(new \DateTimeImmutable());
             $em->flush();
             $this->addFlash('success', 'Survey deleted.');

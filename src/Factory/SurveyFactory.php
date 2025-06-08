@@ -46,6 +46,6 @@ final class SurveyFactory extends PersistentProxyObjectFactory
             // ->afterInstantiate(function(Survey $survey): void {
             //     // Custom logic here
             // })
-            ;
+        ;
     }
 }

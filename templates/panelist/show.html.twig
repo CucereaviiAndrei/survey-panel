@@ -27,3 +27,17 @@
 
     <a href="{{ path('panelist_index') }}" class="btn btn-link mt-4">Back to list</a>
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        $(document).ready(function () {
+            $('.form-select[multiple]').select2({
+                placeholder: 'Select surveys…',
+                width: '100%',
+                allowClear: true
+            });
+        });
+    </script>
+{% endblock %}
