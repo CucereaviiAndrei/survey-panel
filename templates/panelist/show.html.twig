@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Panelist Details{% endblock %}
+
+{% block body %}
+    <h1>Panelist Details</h1>
+
+    <table class="table">
+        <tr><th>First Name</th><td>{{ panelist.firstname }}</td></tr>
+        <tr><th>Last Name</th><td>{{ panelist.lastname }}</td></tr>
+        <tr><th>Email</th><td>{{ panelist.email }}</td></tr>
+        <tr><th>Phone</th><td>{{ panelist.phone ?? '-' }}</td></tr>
+        <tr><th>Country</th><td>{{ panelist.country }}</td></tr>
+        <tr><th>Newsletter</th><td>{{ panelist.newsletterAgreement ? 'Yes' : 'No' }}</td></tr>
+        <tr><th>Created</th><td>{{ panelist.createdAt|date('Y-m-d H:i') }}</td></tr>
+    </table>
+
+    <h2 class="mt-4">Assign Surveys</h2>
+
+    {{ form_start(form, {
+        action: path('panelist_assign_surveys', { id: panelist.id }),
+        method: 'POST'
+    }) }}
+    {{ form_row(form.surveys) }}
+    <button class="btn btn-primary mt-2">Update Surveys</button>
+    {{ form_end(form) }}
+
+    <a href="{{ path('panelist_index') }}" class="btn btn-link mt-4">Back to list</a>
+{% endblock %}

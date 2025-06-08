@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block body %}
+    <div class="text-center mt-5">
+        <h1>Welcome to the Survey App Dashboard</h1>
+        <p class="lead mt-3">Manage Panelists and Surveys easily.</p>
+        <div class="mt-4">
+            <a href="{{ path('panelist_index') }}" class="btn btn-outline-primary btn-lg me-3">Panelists</a>
+            <a href="{{ path('survey_index') }}" class="btn btn-outline-secondary btn-lg">Surveys</a>
+        </div>
+    </div>
+{% endblock %}

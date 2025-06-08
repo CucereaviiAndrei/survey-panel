@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Panelist List{% endblock %}
+
+{% block body %}
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1>Panelists</h1>
+        <a href="{{ path('panelist_new') }}" class="btn btn-primary">New Panelist</a>
+    </div>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>Country</th>
+            <th>Newsletter</th>
+            <th>Created At</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for panelist in panelists %}
+            <tr>
+                <td>{{ panelist.firstname }} {{ panelist.lastname }}</td>
+                <td>{{ panelist.email }}</td>
+                <td>{{ panelist.country }}</td>
+                <td>{{ panelist.newsletterAgreement ? 'Yes' : 'No' }}</td>
+                <td>{{ panelist.createdAt|date('Y-m-d H:i') }}</td>
+                <td>
+                    <a href="{{ path('panelist_show', { id: panelist.id }) }}" class="btn btn-sm btn-outline-secondary">View</a>
+                    <a href="{{ path('panelist_edit', { id: panelist.id }) }}" class="btn btn-sm btn-outline-primary">Edit</a>
+                    <form method="post" action="{{ path('panelist_delete', { id: panelist.id }) }}" style="display:inline-block" onsubmit="return confirm('Are you sure?');">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ panelist.id) }}">
+                        <button class="btn btn-sm btn-outline-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6" class="text-center">No panelists found.</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Survey{% endblock %}
+
+{% block body %}
+    <h1>Edit Survey</h1>
+
+    {{ include('survey/_form.html.twig', { form: form, button_label: 'Update' }) }}
+
+    <a href="{{ path('survey_index') }}" class="btn btn-link mt-3">Back to list</a>
+{% endblock %}

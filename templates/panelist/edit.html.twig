@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Panelist{% endblock %}
+
+{% block body %}
+    <h1>Edit Panelist</h1>
+
+    {{ include('panelist/_form.html.twig', { form: form, button_label: 'Update' }) }}
+
+    <a href="{{ path('panelist_index') }}" class="btn btn-link mt-3">Back to list</a>
+{% endblock %}

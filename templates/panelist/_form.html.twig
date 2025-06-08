@@ -1,0 +1,12 @@
+{{ form_start(form) }}
+<div class="row g-3">
+    {{ form_row(form.firstname) }}
+    {{ form_row(form.lastname) }}
+    {{ form_row(form.email) }}
+    {{ form_row(form.phone) }}
+    {{ form_row(form.country) }}
+    {{ form_row(form.newsletterAgreement) }}
+</div>
+
+<button class="btn btn-success mt-3">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}
